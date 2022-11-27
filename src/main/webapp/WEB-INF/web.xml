@@ -4,9 +4,4 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
-
-    <context-param>
-        <param-name>javax.faces.ENABLE_WEBSOCKET_ENDPOINT</param-name>
-        <param-value>true</param-value>
-    </context-param>
 </web-app>
