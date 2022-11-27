@@ -1,4 +1,4 @@
-package message;
+package utile;
 
 
 import javax.websocket.EncodeException;
@@ -6,9 +6,10 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
+import message.WebsocketMessage;
 
 
-public class WebSocketMessageEncoder implements Encoder.Text<WebSocketMessage> {
+public class WebSocketMessageEncoder implements Encoder.Text<WebsocketMessage> {
     private static Gson jsonEncoder = new Gson();
 
     @Override
@@ -22,7 +23,7 @@ public class WebSocketMessageEncoder implements Encoder.Text<WebSocketMessage> {
     }
 
     @Override
-    public String encode(WebSocketMessage message) throws EncodeException {       
+    public String encode(WebsocketMessage message) throws EncodeException {
         return jsonEncoder.toJson(message);
     }   
 }

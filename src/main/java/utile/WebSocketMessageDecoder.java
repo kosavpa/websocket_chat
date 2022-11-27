@@ -1,4 +1,4 @@
-package message;
+package utile;
 
 
 import javax.websocket.DecodeException;
@@ -6,9 +6,10 @@ import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 
 import com.google.gson.Gson;
+import message.WebsocketMessage;
 
 
-public class WebSocketMessageDecoder implements Decoder.Text<WebSocketMessage> {
+public class WebSocketMessageDecoder implements Decoder.Text<WebsocketMessage> {
     private static Gson jsonDecoder = new Gson();
 
     @Override
@@ -24,8 +25,8 @@ public class WebSocketMessageDecoder implements Decoder.Text<WebSocketMessage> {
     }
 
     @Override
-    public WebSocketMessage decode(String message) throws DecodeException {
-        return jsonDecoder.fromJson(message, WebSocketMessage.class);
+    public WebsocketMessage decode(String message) throws DecodeException {
+        return jsonDecoder.fromJson(message, WebsocketMessage.class);
     }
 
     @Override
