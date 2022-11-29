@@ -51,9 +51,11 @@ class ChatEndpoint {
         // Do error handling here
     }
 
-    private void generalSending(WebsocketMessage message){
-        for(Session userSession : users.keySet()){
-            userSession.getAsyncRemote().sendObject(message);
+    private void generalSending(WebsocketMessage message) {
+        synchronized (users) {
+            for (Session userSession : users.keySet()) {
+                userSession.getAsyncRemote().sendObject(message);
+            }
         }
     }
 }
