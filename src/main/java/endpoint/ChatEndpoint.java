@@ -18,7 +18,7 @@ import java.util.Set;
 @ServerEndpoint(value = "/websocket_chat/{username}",
         decoders = WebSocketMessageDecoder.class,
         encoders = WebSocketMessageEncoder.class)
-class ChatEndpoint {
+public class ChatEndpoint {
     private Map<Session, String> users = new HashMap<>();
 
     @OnOpen
@@ -27,7 +27,6 @@ class ChatEndpoint {
             users.put(session, username);
 
             session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, true, "Congratulate, good connection!"));
-
             generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) users.values()));
         } else {
             session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, false, "This username is already exist!"));
@@ -42,7 +41,6 @@ class ChatEndpoint {
     @OnClose
     public void onClose(Session session) throws IOException {
         users.remove(session);
-
         generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) users.values()));
     }
 
@@ -53,9 +51,8 @@ class ChatEndpoint {
 
     private void generalSending(WebsocketMessage message) {
         synchronized (users) {
-            for (Session userSession : users.keySet()) {
+            for (Session userSession : users.keySet())
                 userSession.getAsyncRemote().sendObject(message);
-            }
         }
     }
 }
