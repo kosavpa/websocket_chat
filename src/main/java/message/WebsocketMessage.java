@@ -14,10 +14,10 @@ public class WebsocketMessage {
     private String content;
     private boolean resultConnectStatus;
 
-    public WebsocketMessage(MessageType type, boolean resultConnectStatus, String content) {
+    public WebsocketMessage(MessageType type, boolean resultStatus, String content) {
         this.type = type;
         this.content = content;
-        this.resultConnectStatus = resultConnectStatus;
+        this.resultConnectStatus = resultStatus;
     }
 
     public WebsocketMessage(MessageType type, String from, String content) {

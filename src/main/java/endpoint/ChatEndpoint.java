@@ -19,17 +19,15 @@ import java.util.Set;
         decoders = WebSocketMessageDecoder.class,
         encoders = WebSocketMessageEncoder.class)
 public class ChatEndpoint {
-    private Map<Session, String> users = new HashMap<>();
+    private static Map<Session, String> allConnection = new HashMap<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username")String username) throws IOException {
-        if(!users.containsValue(username)) {
-            users.put(session, username);
-
+    public void onOpen(Session session, @PathParam("username") String username) throws IOException {
+        if(!allConnection.containsValue(username)) {
+            allConnection.put(session, username);
             session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, true, "Congratulate, good connection!"));
-            generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) users.values()));
         } else {
-            session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, false, "This username is already exist!"));
+            session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, false, "Bad connection, people with this is username exist!"));
         }
     }
 
@@ -40,8 +38,8 @@ public class ChatEndpoint {
 
     @OnClose
     public void onClose(Session session) throws IOException {
-        users.remove(session);
-        generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) users.values()));
+        allConnection.remove(session);
+        generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) allConnection.values()));
     }
 
     @OnError
@@ -50,9 +48,8 @@ public class ChatEndpoint {
     }
 
     private void generalSending(WebsocketMessage message) {
-        synchronized (users) {
-            for (Session userSession : users.keySet())
-                userSession.getAsyncRemote().sendObject(message);
-        }
+            for (Session userSession : allConnection.keySet())
+                if(allConnection.get(userSession) != null)
+                    userSession.getAsyncRemote().sendObject(message);
     }
 }
