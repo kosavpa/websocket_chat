@@ -26,8 +26,10 @@ public class ChatEndpoint {
         if(!allConnection.containsValue(username)) {
             allConnection.put(session, username);
             session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, true, "Congratulate, good connection!"));
+            generalSending(new WebsocketMessage(MessageType.USER_LIST, (Set<String>) allConnection.values()));
         } else {
             session.getAsyncRemote().sendObject(new WebsocketMessage(MessageType.CONNECTION, false, "Bad connection, people with this is username exist!"));
+            session.close();
         }
     }
 

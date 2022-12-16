@@ -1,0 +1,24 @@
+<!DOCTYPE html public>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>    
+        <div id="up_container">
+            <div id="chat_area"></div>
+            <div id="user_area">
+                <input id="carrent_user" type="text" placeholder="Введите ваше имя"/>
+                <div id="ws_manager">
+                    <button id="connect_button">Сonnect</button>
+                    <button id="disconnect_button">Disconnect</button>
+                </div>
+                <div id="user_list"></div>
+            </div>
+        </div>
+        <div id="down_container">
+            <textarea id="message_text" type="text" placeholder="Введите сообщение"></textarea>
+            <button id="send_button">SEND</button>
+        </div>
+        <script type="text/javascript" src="ws.js"></script>
+    </body>
+</html>
